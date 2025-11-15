@@ -9,40 +9,44 @@ import org.junit.jupiter.api.Test;
 
 class TestPiece{
 
-  @Test
-  void testPieceBasics() {
-    Piece rat = new Piece(Piece.Type.RAT, 2, 0);
-    assertNotNull(rat);
-    assertEquals(Piece.Type.RAT, rat.getType());
-    assertEquals(2, rat.getRow());
-    assertEquals(0, rat.getCol());
-    assertTrue(rat.canSwim(), "Rat should be able to swim");
-    assertEquals(1, rat.getRank());
+    @Test
+    void testPieceBasics() {
+        Piece rat = new Piece(Type.RAT, 1, 2, 0);
+        assertNotNull(rat);
+        assertEquals(Type.RAT, rat.getType());
+        assertEquals(2, rat.getRow());
+        assertEquals(0, rat.getCol());
+        assertTrue(rat.canSwim(), "Rat should be able to swim");
+        assertEquals(1, rat.getRank());
 
-    Piece elephant = new Piece(Piece.Type.ELEPHANT, 6, 6);
-    assertFalse(elephant.canSwim(), "Elephant cannot swim");
-    assertEquals(8, elephant.getRank());
-  }
+        Piece elephant = new Piece(Type.ELEPHANT,2, 6, 6);
+        assertFalse(elephant.canSwim(), "Elephant cannot swim");
+        assertEquals(8, elephant.getRank());
+    }
 
-  @Test
-  void testJumpAndSwimFlags() {
-    Piece tiger = new Piece(Piece.Type.TIGER, 3, 1);
-    Piece lion = new Piece(Piece.Type.LION, 3, 2);
-    assertTrue(tiger.canJumpOverRiver(), "Tiger can jump over river");
-    assertTrue(lion.canJumpOverRiver(), "Lion can jump over river");
-    assertFalse(tiger.canSwim(), "Tiger cannot swim");
-  }
+    @Test
+    void testJumpAndSwimFlags() {
+        Piece tiger = new Piece(Type.TIGER, 1, 3, 1);
+        Piece lion = new Piece(Type.LION, 1, 3, 2);
+        assertTrue(tiger.canJumpOverRiver(), "Tiger can jump over river");
+        assertTrue(lion.canJumpOverRiver(), "Lion can jump over river");
+        assertFalse(tiger.canSwim(), "Tiger cannot swim");
+    }
 
-  @Test
-  void testSetInWaterAndCapturedBehaviour() {
-    Piece p = new Piece(Piece.Type.CAT, 4, 3);
-    assertFalse(p.isInWater());
-    p.setInWater(true);
-    assertTrue(p.isInWater());
+    @Test
+    void testSetInWaterAndCapturedBehaviour() {
+        Piece p = new Piece(Type.CAT, 1, 4, 3);
+        // initial position is not river
+        assertFalse(Board.isRiver(p.getRow(), p.getCol()));
+        // move piece into a river cell and verify it's on a river square
+        p.setCurrentPosition(4, 2);
+        assertTrue(Board.isRiver(p.getRow(), p.getCol()));
+        // CAT cannot swim
+        assertFalse(p.canSwim());
 
-    p.setCaptured(true);
-    assertTrue(p.isCaptured());
-    assertEquals(-1, p.getRow(), "Captured piece row should be -1");
-    assertEquals(-1, p.getCol(), "Captured piece col should be -1");
-  }
+        p.setCaptured(true);
+        assertTrue(p.isCaptured());
+        assertEquals(-1, p.getRow(), "Captured piece row should be -1");
+        assertEquals(-1, p.getCol(), "Captured piece col should be -1");
+    }
 }
