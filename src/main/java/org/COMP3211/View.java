@@ -1,5 +1,7 @@
 package org.COMP3211;
 
+import org.COMP3211.Model.Board;
+
 public class View {
     
     public static void printStartPage() {

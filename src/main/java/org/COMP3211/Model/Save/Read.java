@@ -1,12 +1,12 @@
-package org.COMP3211;
+package org.COMP3211.Model.Save;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class Read {
-    public static Records readFile(String filename) {
-        Records record = null;
+    public static Record readFile(String filename) {
+        Record record = null;
         
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -30,7 +30,7 @@ public class Read {
 
                     String player1Name = player1Line.split(":", 2)[1].trim();
                     String player2Name = player2Line.split(":", 2)[1].trim();
-                    record = new Records(player1Name, player2Name);
+                    record = new Record(player1Name, player2Name);
 
                 } else if (line.equals("== Game History ==")) {
                     movementInfo = true;
@@ -38,7 +38,7 @@ public class Read {
                     movementInfo = false;
                 } else if (movementInfo && record != null) {
                     // parse move record
-                    MoveRecord move = MoveRecord.fromFileFormat(line);
+                    Move move = Move.fromFileFormat(line);
                     record.addMove(move);
                 } else if (line.startsWith("Winner:") && record != null) {
                     String winner = line.split(":", 2)[1].trim();

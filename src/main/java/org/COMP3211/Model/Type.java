@@ -1,4 +1,4 @@
-package org.COMP3211;
+package org.COMP3211.Model;
 
 public enum Type {
     RAT(1, 'R'), CAT(2, 'C'), DOG(3, 'D'), WOLF(4, 'W'), LEOPARD(5, 'P'), TIGER(6, 'T'), LION(7, 'L'), ELEPHANT(8, 'E');

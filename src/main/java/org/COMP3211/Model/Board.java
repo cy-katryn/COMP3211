@@ -1,4 +1,4 @@
-package org.COMP3211;
+package org.COMP3211.Model;
 public class Board {
     public static final int ROWS = 9;
     public static final int COLS = 7;

@@ -1,4 +1,8 @@
-package org.COMP3211;
+package org.COMP3211.Model.Save;
+
+import org.COMP3211.Main;
+import org.COMP3211.Model.Game;
+import org.COMP3211.View;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,7 +11,7 @@ import java.io.PrintWriter;
 public class Save {
     
     // save record to file
-    public boolean saveRecord(Records record, String filename){
+    public boolean saveRecord(Record record, String filename){
         if(!filename.endsWith(".record")) filename += ".record";
         if (writeToFile(record, filename)) {
             System.out.println("Record successfully saved to: " + filename);
@@ -18,7 +22,7 @@ public class Save {
     }
 
     // save game to file
-    public boolean saveGame(Records record, String filename) {
+    public boolean saveGame(Record record, String filename) {
         if (!filename.endsWith(".jungle")) filename += ".jungle";
         if (writeToFile(record, filename)) {
             System.out.println("Game successfully save to: " + filename);
@@ -28,14 +32,14 @@ public class Save {
         return false;
     }
 
-    public boolean writeToFile(Records record, String filename){
+    public boolean writeToFile(Record record, String filename){
         try(PrintWriter writer = new PrintWriter(new FileWriter(filename))){
             //write player infos and game data to file
-            Writer.writeHeader(writer, record);
-            Writer.writePlayerInfo(writer, record);
-            Writer.writeGameSettings(writer, record);
-            Writer.writeMovementHistory(writer, record);
-            Writer.writeGameResult(writer, record);
+            Write.writeHeader(writer, record);
+            Write.writePlayerInfo(writer, record);
+            Write.writeGameSettings(writer, record);
+            Write.writeMovementHistory(writer, record);
+            Write.writeGameResult(writer, record);
             return true;
         } catch(IOException e) {
             return false;
@@ -46,7 +50,7 @@ public class Save {
     public void loadRecord(String filename) {
         if(!filename.endsWith(".record")) return;
 
-        Records record = Read.readFile(filename);
+        Record record = Read.readFile(filename);
         if(record == null) {
             System.err.println("Failed to load record: " + filename);
             return;
@@ -56,7 +60,7 @@ public class Save {
     public void loadGame(String filename){
         if(!filename.endsWith(".jungle")) return;
         
-        Records record = Read.readFile(filename);
+        Record record = Read.readFile(filename);
         if(record == null) {
             System.err.println("Failed to load game: " + filename);
             return;
@@ -65,7 +69,7 @@ public class Save {
     }
 
     //replay game / records
-    public void replay(Records record, boolean continueAfterReplay){
+    public void replay(Record record, boolean continueAfterReplay){
         if(record == null){
             System.err.println("No record to replay.");
             return;
@@ -81,7 +85,7 @@ public class Save {
         replayGame.start();
         Main.game = replayGame;
 
-        for(MoveRecord move : record.getRecords()){
+        for(Move move : record.getRecords()){
             System.out.println("\nTurn " + move.getMoveNum() + " - " + move.getPlayerName());
             System.out.println("Input: " + move.getPieceKey() + " " + move.getDir());
 

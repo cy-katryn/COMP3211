@@ -1,4 +1,7 @@
-package org.COMP3211;
+package org.COMP3211.Model;
+
+import org.COMP3211.Model.Save.Move;
+import org.COMP3211.Model.Save.Record;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -10,7 +13,7 @@ public class Game {
     private String player1;
     private String player2;
 
-    private Records record;
+    private org.COMP3211.Model.Save.Record record;
     private int undoCount = 0;
     private static final int MAX_UNDO = 3;
 
@@ -19,7 +22,7 @@ public class Game {
     public final Map<String, Piece> piece2 = new Hashtable<>();
 
     public String getCurrentPlayer() { return turn % 2 == 0? player1 : player2; }
-    public Records getGameRecord() { return record; }
+    public org.COMP3211.Model.Save.Record getGameRecord() { return record; }
 
     public Game() { 
         Object[][] spec = {
@@ -62,7 +65,7 @@ public class Game {
     }
 
     public void start(){
-        this.record = new Records(player1, player2);
+        this.record = new Record(player1, player2);
         this.turn = 0;
         this.undoCount = 0;
     }
@@ -127,7 +130,7 @@ public class Game {
 
         // return to previous state and delete record
         turn--;
-        MoveRecord lastMove = record.getRecords().remove(record.getRecords().size() - 1);
+        Move lastMove = record.getRecords().remove(record.getRecords().size() - 1);
         Piece piece = (turn % 2 == 0) ? piece1.get(lastMove.getPieceKey()) : piece2.get(lastMove.getPieceKey());
         // move piece back to original position
         piece.move(lastMove.getFromRow() - piece.getRow(), lastMove.getFromCol() - piece.getCol());

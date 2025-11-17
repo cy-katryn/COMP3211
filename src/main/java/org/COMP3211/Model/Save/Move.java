@@ -1,6 +1,8 @@
-package org.COMP3211;
+package org.COMP3211.Model.Save;
 
-public class MoveRecord {
+import org.COMP3211.Model.Type;
+
+public class Move {
     private int moveNum;
     private String playerName;
     private String pieceKey;
@@ -10,10 +12,10 @@ public class MoveRecord {
     private Type pieceType;
     private Type capturedPiece; 
 
-    public MoveRecord(int moveNum, String playerName, 
-                     String pieceKey, String dir,
-                     int fromRow, int fromCol, int toRow, int toCol,
-                     Type pieceType, Type capturedPiece) {
+    public Move(int moveNum, String playerName,
+                String pieceKey, String dir,
+                int fromRow, int fromCol, int toRow, int toCol,
+                Type pieceType, Type capturedPiece) {
         this.moveNum = moveNum;
         this.playerName = playerName;
         this.pieceKey = pieceKey;
@@ -43,7 +45,7 @@ public class MoveRecord {
     } 
 
     //parse from file format
-    public static MoveRecord fromFileFormat(String line) {
+    public static Move fromFileFormat(String line) {
         try {
             String[] parts = line.split("\\|");
             if (parts.length >= 7) {
@@ -60,7 +62,7 @@ public class MoveRecord {
                 Type pieceType = Type.valueOf(parts[5]);
                 Type capturedPiece = parts[6].equals("-") ? null : Type.valueOf(parts[4]);
 
-                return new MoveRecord(moveNum, playerName, pieceKey, dir, fromRow, fromCol, toRow, toCol, pieceType, capturedPiece);
+                return new Move(moveNum, playerName, pieceKey, dir, fromRow, fromCol, toRow, toCol, pieceType, capturedPiece);
             }
         } catch (Exception e) {
             System.err.println("Failed to get movements: " + line);

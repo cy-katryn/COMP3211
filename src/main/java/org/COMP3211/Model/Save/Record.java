@@ -1,18 +1,21 @@
-package org.COMP3211;
+package org.COMP3211.Model.Save;
+import org.COMP3211.Main;
+import org.COMP3211.Model.Type;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Records {
+public class Record {
     private final String player1Name;
     private final String player2Name;
     private final String gameDate;
     private final String startTime;
-    private final List<MoveRecord> records;
+    private final List<Move> records;
     private String winner;
 
-    public Records(String player1Name, String player2Name) {
+    public Record(String player1Name, String player2Name) {
         this.player1Name = player1Name;
         this.player2Name = player2Name;
         this.gameDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -26,11 +29,11 @@ public class Records {
 
     //add move records
     public void addMove(String playerName, String pieceKey, String dir, int fromRow, int fromCol, int toRow, int toCol, Type pieceType, Type capturedPiece) {
-        MoveRecord move = new MoveRecord(Main.game.turn,  playerName, pieceKey, dir, fromRow, fromCol, toRow, toCol, pieceType, capturedPiece);
+        Move move = new Move(Main.game.turn,  playerName, pieceKey, dir, fromRow, fromCol, toRow, toCol, pieceType, capturedPiece);
         records.add(move);
     }
 
-    public void addMove(MoveRecord move) {
+    public void addMove(Move move) {
         if (move != null) records.add(move);
     }
 
@@ -40,5 +43,5 @@ public class Records {
     public String getGameDate() { return gameDate; }
     public String getStartTime() { return startTime; }
     public String getWinner(){ return winner; }
-    public List<MoveRecord> getRecords(){ return records; }
+    public List<Move> getRecords(){ return records; }
 }

@@ -1,4 +1,7 @@
-package org.COMP3211;
+package org.COMP3211.Model;
+
+import org.COMP3211.Main;
+
 public class Piece {
 
     private final Type type;
