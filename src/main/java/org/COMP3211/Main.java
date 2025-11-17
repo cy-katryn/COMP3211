@@ -74,11 +74,8 @@ public class Main {
         }
     }
 
-    public static void endGame(){
-        if (game.getGameRecord() == null) game.start();
-    
-        String winner = game.getWinner();
-        
+    public static void endGame(String winner){
+
         if (winner != null) {
             System.out.println("Game Over! Winner: " + winner);
             //save record
@@ -96,15 +93,20 @@ public class Main {
 
         while (true) {
             View.printBoard();
-            View.printCurrentPlayer(); 
+            String winner = game.getWinner();
+            if (winner != null) {
+                endGame(winner);
+                return;
+            }
+            View.printCurrentPlayer();
 
             System.out.println("Enter your Piece and Direction or 'quit' to exit: ");
             getCommand();
 
             switch (_command[0]) {
                 case "move" -> {
-                    boolean success = game.movePiece(_command[1], _command[2]);
-                    System.out.println(success ? "Move successful." : "Invalid move. Try again.");
+                    if (game.movePiece(_command[1], _command[2])) System.out.println("Move successful.");
+                    else System.out.println("Invalid move. Try again.");
                 }
 
                 case "undo" -> {
