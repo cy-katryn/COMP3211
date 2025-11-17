@@ -1,8 +1,5 @@
 package org.COMP3211.Model;
 
-import org.COMP3211.Model.Save.Move;
-import org.COMP3211.Model.Save.Record;
-
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -10,10 +7,10 @@ public class Game {
     public int turn = 0;
     public Piece capturedPiece = null;
 
-    private String player1;
-    private String player2;
+    public String player1;
+    public String player2;
 
-    private org.COMP3211.Model.Save.Record record;
+    private Record record;
     private int undoCount = 0;
     private static final int MAX_UNDO = 3;
 
@@ -22,7 +19,7 @@ public class Game {
     public final Map<String, Piece> piece2 = new Hashtable<>();
 
     public String getCurrentPlayer() { return turn % 2 == 0? player1 : player2; }
-    public org.COMP3211.Model.Save.Record getGameRecord() { return record; }
+    public Record getGameRecord() { return record; }
 
     public Game() { 
         Object[][] spec = {

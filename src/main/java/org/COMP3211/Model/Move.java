@@ -1,6 +1,4 @@
-package org.COMP3211.Model.Save;
-
-import org.COMP3211.Model.Type;
+package org.COMP3211.Model;
 
 public class Move {
     private int moveNum;

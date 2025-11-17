@@ -1,5 +1,6 @@
-package org.COMP3211;
+package org.COMP3211.View;
 
+import org.COMP3211.Controller.Main;
 import org.COMP3211.Model.Board;
 
 public class View {
@@ -36,9 +37,9 @@ public class View {
                 line2.append(cell[2]);  
             }
 
-            System.out.println(line0.toString());
-            System.out.println(line1.toString()); 
-            System.out.println(line2.toString());
+            System.out.println(line0);
+            System.out.println(line1);
+            System.out.println(line2);
         }
     }
 

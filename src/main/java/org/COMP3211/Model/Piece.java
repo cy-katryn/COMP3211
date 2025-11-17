@@ -1,6 +1,6 @@
 package org.COMP3211.Model;
 
-import org.COMP3211.Main;
+import org.COMP3211.Controller.Main;
 
 public class Piece {
 

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.COMP3211.Controller.Main;
 import org.COMP3211.Model.Game;
 import org.COMP3211.Model.Piece;
 import org.COMP3211.Model.Type;
@@ -118,6 +119,6 @@ class TestGame {
         g.turn = 1; // player2
         
         boolean moved = g.movePiece("R", "R"); 
-        assertTrue(moved == true || moved == false); // just ensure no exception occurs
+        assertTrue(moved || !moved); // just ensure no exception occurs
     }
 }

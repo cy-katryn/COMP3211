@@ -1,4 +1,4 @@
-package org.COMP3211.Model.Save;
+package org.COMP3211.Model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
