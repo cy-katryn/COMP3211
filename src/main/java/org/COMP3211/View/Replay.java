@@ -1,4 +1,4 @@
-﻿package org.COMP3211.View;
+package org.COMP3211.View;
 
 import org.COMP3211.Controller.Main;
 import org.COMP3211.Model.Game;

@@ -9,12 +9,12 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class Main {
-    private static final Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
     public static Game game;
     private static String[] _command;
 
     public static void main(String[] args) {
-
+        scanner = new Scanner(System.in);
         View.printStartPage();
 
         while (true) {
@@ -34,7 +34,7 @@ public class Main {
                     String input1 = scanner.nextLine();
                     String player1 = input1.isEmpty() ? name1 : input1;
                     
-                    String player2 = null;
+                    String player2;
                     while(true){
                         System.out.print("Player 2 name: ");
                         String input2 = scanner.nextLine();

@@ -25,19 +25,18 @@ class TestGame {
 
     @Test
     void testGameInitialization() {
+        // Test that the game initializes correctly
         assertNotNull(g, "Game should be initialized");
-            
-        g.player1 = "TestPlayer1";
-        g.player2 = "TestPlayer2";
-        assertNotNull(g.player1, "Player1 should be initialized");
-        assertNotNull(g.player2, "Player2 should be initialized");
-        assertEquals("TestPlayer1", g.player1);
-        assertEquals("TestPlayer2", g.player2);
+        g.setPlayerNames("TestPlayer1", "TestPlayer2");
+
+        assertNotNull(g.getCurrentPlayer(), "Player1 should be initialized");
+        assertEquals("TestPlayer1", g.getCurrentPlayer());
         assertEquals(0, g.turn, "Turn should start at 0");
     }
 
     @Test
     void testInitializationPieces() {
+        // Test that pieces are initialized at correct positions
         // initial rat for player1 is at (2,0)
         Piece p = g.getPieceAt(2, 0);
         assertNotNull(p, "Expected a piece at (2,0)");
@@ -52,8 +51,10 @@ class TestGame {
     }
 
     @Test
-    void testMoveRatRight() {
+    void testMoveRight() {
+        // Test moving a piece to the right
         g.turn = 0; // player1
+        g.setPlayerNames("TestPlayer1", "TestPlayer2");
 
         // R1 starts at (2,0). Move right to (2,1)
         boolean moved = g.movePiece("R", "R"); // will target "R1" because turn=0
@@ -68,7 +69,9 @@ class TestGame {
 
     @Test
     void testInvalidOutOfBoundsMove() {
+        // Test moving a piece out of bounds
         g.turn = 0; // player1
+        g.setPlayerNames("TestPlayer1", "TestPlayer2");
 
         // L1 (lion) starts at (0,0). Moving up should be out of bounds.
         boolean moved = g.movePiece("L", "U");
@@ -80,8 +83,10 @@ class TestGame {
 
     @Test
     void testLeopardCannotEnterRiver() {
+        // Test that Leopard cannot enter river squares
         g.turn = 0; // player1
-        
+        g.setPlayerNames("TestPlayer1", "TestPlayer2");
+
         // P1 (Leopard) starts at (2,2). Moving down should cross the river.
         boolean movedToRiver = g.movePiece("P", "D"); 
         assertFalse(movedToRiver, "Leopard should not be able to enter river");
@@ -91,20 +96,74 @@ class TestGame {
         assertEquals(Type.LEOPARD, stillThere.getType());
     }
 
+
+    @Test
+    void testLionCannotJumpOverRatInRiver() {
+        // Test that Lion cannot jump over river when there's a rat in the river
+        g.turn = 0; // player1
+        g.setPlayerNames("TestPlayer1", "TestPlayer2");
+
+        g.movePiece("R", "D");
+        g.turn = 0;
+        g.movePiece("R", "R");
+        // Now Rat is at (3,1) in the river
+        // Try to make Lion jump over the river from (2,1) to (6,1)
+        g.turn = 0;
+        g.movePiece("D", "R");
+        g.turn = 0;
+        g.movePiece("L", "R");
+        g.turn = 0;
+        g.movePiece("L", "D");
+        g.turn = 0;
+        g.movePiece("L", "D");
+        g.turn = 0;
+        boolean moved = g.movePiece("L", "D");
+        assertFalse(moved, "Lion should not be able to jump over river with rat in it");
+
+        // Verify Lion is still at original position
+        Piece lion = g.getPieceAt(2, 1);
+        assertNotNull(lion, "Lion should remain at original position");
+        assertEquals(Type.LION, lion.getType());
+    }
+
+    @Test
+    void testTigerCanJumpOverRiverWithoutRat() {
+        // Test that Tiger can jump over river when there's no rat in the river
+        g.turn = 0; // player1
+        g.setPlayerNames("TestPlayer1", "TestPlayer2");
+
+        // Try to make Tiger jump over the river (from (2,5) to (6,5))
+        g.movePiece("C", "R");
+        g.turn = 0;
+        g.movePiece("T", "L");
+        g.turn = 0;
+        g.movePiece("T", "D");
+        g.turn = 0;
+        g.movePiece("T", "D");
+        g.turn = 0;
+        boolean moved = g.movePiece("T", "D");
+        assertTrue(moved, "Tiger should not be able to jump over river with rat in it");
+
+        // Verify Tiger is still at original position
+        Piece tiger = g.getPieceAt(6, 5);
+        assertNotNull(tiger, "Tiger should remain at original position");
+        assertEquals(Type.TIGER, tiger.getType());
+    }
+
     @Test
     void testTurnAndCurrentPlayer() {
-        g.player1 = "P1";
-        g.player2 = "P2";
+        // Test that turn increments and current player switches correctly
+        g.setPlayerNames("TestPlayer1", "TestPlayer2");
 
         g.turn = 0;
-        assertEquals("P1", g.getCurrentPlayer());
+        assertEquals("TestPlayer1", g.getCurrentPlayer());
         g.turn = 1;
-        assertEquals("P2", g.getCurrentPlayer());
+        assertEquals("TestPlayer2", g.getCurrentPlayer());
     }
-    
-    //TODO: 有问题
+
     @Test
     void testTurnIncrementsAfterSuccessfulMove() {
+        // Test that turn increments after a successful move
         g.turn = 0; // player1
         int initialTurn = g.turn;
 
@@ -116,9 +175,53 @@ class TestGame {
 
     @Test
     void testCannotMoveWhenNotYourTurn() {
+        // Test that a player cannot move opponent's pieces
         g.turn = 1; // player2
         
-        boolean moved = g.movePiece("R", "R"); 
-        assertTrue(moved || !moved); // just ensure no exception occurs
+        boolean moved = g.movePiece("R", "R");
+        assertFalse(moved); // just ensure no exception occurs
+    }
+
+    @Test
+    void testMoveAddsRecord() {
+        // Test that a move is recorded in Records
+        g.start(); // initialize Records
+        boolean move = g.movePiece("R", "R");
+        assertTrue(move, "Expected move to succeed");
+        assertEquals(1, g.getGameRecord().getRecords().size(), "One move should be recorded");
+    }
+
+    @Test
+    void testInvalidPieceKeyFalse() {
+        // Test that moving a non-existent piece returns false
+        g.turn = 0;
+        boolean moved = g.movePiece("Z", "R"); // no such key
+        assertFalse(moved, "Moving a non-existent piece should return false");
+    }
+
+    @Test
+    void testNoWinnerInitially() {
+        // Test that there is no winner at the start of the game
+        g.setPlayerNames("TestPlayer1", "TestPlayer2");
+        // should be no winner at the start of the game
+        assertNull(g.getWinner(), "No winner at game start");
+    }
+
+    @Test
+    void testWinnerByDenCapture() {
+        g.setPlayerNames("TestPlayer1", "TestPlayer2");
+        // put player1's rat to player2's den
+        // player2 should be the winner
+        g.boardPieces[0][3] = new Piece(Type.RAT, 2, 0, 3);
+        assertEquals("TestPlayer2", g.getWinner(), "Player2 should win when occupying opponent den");
+    }
+
+    @Test
+    void testWinnerByNoPiecesRemaining() {
+        g.setPlayerNames("TestPlayer1", "TestPlayer2");
+        //clear all pieces of player1
+        // player2 should be the winner
+        g.piece1.clear();
+        assertEquals("TestPlayer2", g.getWinner(), "Player2 should win when Player1 has no pieces left");
     }
 }

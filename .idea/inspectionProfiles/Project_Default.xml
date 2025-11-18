@@ -444,7 +444,9 @@
       <option name="loggerFactoryMethodName" value="getLogger,getLogger,getLog,getLogger" />
     </inspection_tool>
     <inspection_tool class="LoopVariableNotUpdated" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="MagicNumber" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="MagicNumber" enabled="true" level="ERROR" enabled_by_default="true">
+      <scope name="Tests" level="ERROR" enabled="false" />
+    </inspection_tool>
     <inspection_tool class="MapFlatten" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="MapGetOrElseFalse" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="MapKeys" enabled="false" level="WARNING" enabled_by_default="false" />

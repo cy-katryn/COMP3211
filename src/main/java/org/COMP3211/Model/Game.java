@@ -20,6 +20,8 @@ public class Game {
 
     public String getCurrentPlayer() { return turn % 2 == 0? player1 : player2; }
     public Record getGameRecord() { return record; }
+    public String getPlayer1Name() { return player1; }
+    public String getPlayer2Name() { return player2; }
 
     public Game() { 
         Object[][] spec = {
@@ -79,7 +81,7 @@ public class Game {
         int fromCol = piece.getCol();
         Type pieceType = piece.getType();
 
-        boolean moved = false;
+        boolean moved;
 
         switch (dir) {
         case "R": moved = piece.move(0, 1); break;
@@ -127,7 +129,7 @@ public class Game {
 
         // return to previous state and delete record
         turn--;
-        Move lastMove = record.getRecords().remove(record.getRecords().size() - 1);
+        Move lastMove = record.getRecords().removeLast();
         Piece piece = (turn % 2 == 0) ? piece1.get(lastMove.getPieceKey()) : piece2.get(lastMove.getPieceKey());
         // move piece back to original position
         piece.move(lastMove.getFromRow() - piece.getRow(), lastMove.getFromCol() - piece.getCol());
